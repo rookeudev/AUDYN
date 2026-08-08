@@ -1,174 +1,184 @@
 <p align="center">
-  <img src="resources/audyn-icon.png" width="132" alt="Audyn logo">
+  <img src="resources/audyn-icon.png" width="128" alt="Audyn logo">
 </p>
 
 <h1 align="center">Audyn</h1>
 
 <p align="center">
-  A lightweight Spotify Rich Presence companion for Windows.<br>
-  <strong>No Spotify Premium. No Spotify login. No terminal window.</strong>
+  <strong>Beautiful Spotify Rich Presence for Windows.</strong><br>
+  Share the track you love on Discord with artwork, live timing and useful buttons.
 </p>
 
 <p align="center">
+  <img alt="Audyn 0.5.0" src="https://img.shields.io/badge/Audyn-0.5.0-2DD4BF?style=flat-square">
   <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-177DDC?style=flat-square&logo=windows11&logoColor=white">
-  <img alt="C++20" src="https://img.shields.io/badge/C%2B%2B-20-00599C?style=flat-square&logo=cplusplus&logoColor=white">
-  <img alt="Spotify Free supported" src="https://img.shields.io/badge/Spotify%20Free-supported-1DB954?style=flat-square&logo=spotify&logoColor=white">
+  <img alt="Spotify Free" src="https://img.shields.io/badge/Spotify-Free%20%7C%20Premium-1DB954?style=flat-square&logo=spotify&logoColor=white">
   <img alt="Discord Rich Presence" src="https://img.shields.io/badge/Discord-Rich%20Presence-5865F2?style=flat-square&logo=discord&logoColor=white">
+  <img alt="Native C++20" src="https://img.shields.io/badge/native-C%2B%2B20-00599C?style=flat-square&logo=cplusplus&logoColor=white">
 </p>
 
 <p align="center">
-  <a href="../../releases/latest"><strong>Download the latest release</strong></a>
+  <a href="../../releases/latest"><strong>Download Audyn for Windows</strong></a>
   ·
   <a href="#quick-start">Quick start</a>
   ·
-  <a href="#privacy">Privacy</a>
+  <a href="#troubleshooting">Troubleshooting</a>
 </p>
 
 ---
 
-Audyn reads the track playing in the Spotify desktop app and displays it as a polished Discord Rich Presence. It shows the track title, artist, playback time, album artwork, and the Audyn logo without requiring Spotify API credentials.
+Audyn is a lightweight Windows companion for Spotify and Discord. Start a song in the Spotify desktop app and Audyn turns it into a polished Discord activity—complete with the track name, artist, album cover and a synchronized playback timer.
+
+It works with both **Spotify Free and Spotify Premium**, runs quietly in the system tray and never needs a terminal window.
 
 ## Preview
 
 <p align="center">
-  <img src="docs/audyn-dashboard.png" width="850" alt="Audyn dashboard showing the current Spotify track">
+  <img src="docs/audyn-dashboard.png" width="900" alt="Audyn Now Playing dashboard">
 </p>
 
 <details>
-  <summary><strong>View the settings screen</strong></summary>
+  <summary><strong>Appearance controls</strong></summary>
   <br>
-  <p align="center">
-    <img src="docs/audyn-settings.png" width="850" alt="Audyn privacy and presence settings">
-  </p>
+  <p align="center"><img src="docs/audyn-settings.png" width="900" alt="Audyn appearance settings"></p>
+</details>
+
+<details>
+  <summary><strong>About and artwork preferences</strong></summary>
+  <br>
+  <p align="center"><img src="docs/audyn-privacy.png" width="900" alt="Audyn About and data page"></p>
 </details>
 
 ## Highlights
 
-- Works with both Spotify Free and Spotify Premium.
-- Requires no Spotify login, OAuth flow, Client ID, Client Secret, or browser authorization.
-- Shows the track title, artist, album, artwork, and elapsed or remaining time on Discord.
-- Resynchronizes the Discord timer after seeking or restarting the same track.
-- Detects advertisements and clears Rich Presence before advertisement metadata is shared.
-- Provides fixed GitHub and Spotify track buttons in the official build.
-- Runs as a native C++ Windows application with no Electron runtime and no terminal window.
-- Supports the system tray, start with Windows, and minimize to tray.
-- Contains no Audyn analytics, account system, advertising, or remote backend.
+- **Full Discord activity:** track, artist, album, playback state and live progress.
+- **Spotify Free support:** no Premium subscription is required.
+- **Album artwork:** matching public cover art appears as the large Presence image.
+- **Useful buttons:** fixed links to the official Audyn GitHub repository and the current track on Spotify.
+- **Accurate timing:** seeking or restarting the same track resynchronizes the Discord timer.
+- **Advertisement filtering:** Audyn clears the activity instead of publishing detected ad metadata.
+- **Personal appearance:** choose which fields are displayed and customize both Presence text lines.
+- **Smooth native UI:** animated hover states, responsive controls and a modern dark design.
+- **Background mode:** minimize to the Windows tray and optionally start with Windows.
+- **Lightweight build:** native C++20, no Electron runtime and no console window.
 
 ## Quick start
 
-1. Download the Audyn Windows ZIP from the [latest release](../../releases/latest).
-2. Extract the ZIP and run `Audyn.exe`.
-3. Start the Discord desktop app and make sure activity sharing is enabled.
-4. Start the Spotify desktop app and play a track.
-5. Leave the Presence switch in Audyn set to **ACTIVE**.
+1. Download `Audyn-0.5.0-win64.zip` from the [latest release](../../releases/latest).
+2. Extract the ZIP to a folder you trust.
+3. Open the Spotify and Discord desktop applications.
+4. Run `Audyn.exe` and play a song in Spotify.
+5. Keep the switch in the top-right corner set to **LIVE**.
 
-No installation or Spotify authorization is required. Audyn can be minimized to the notification area after it connects.
+That is all. Audyn does not require installation, administrator rights, a Spotify Premium subscription or a browser login.
 
-## What appears on Discord
+## How it works
 
-```text
-Track title
-Artist
-Playback time and progress
-[ GitHub ] [ Open track on Spotify ]
+```mermaid
+flowchart LR
+    S["Spotify desktop"] -->|"Now Playing metadata"| W["Windows media session"]
+    W --> A["Audyn"]
+    A -->|"Rich Presence"| D["Discord desktop"]
+    A -. "optional cover lookup" .-> C["Public artwork catalog"]
 ```
 
-The album cover is used as the large image. The locked Audyn application icon is displayed as the small overlay. The Spotify button is generated for the current track, while the GitHub button always opens the official [rookeudev/AUDYN](https://github.com/rookeudev/AUDYN) repository. Its destination is embedded into official builds and cannot be edited from the application settings.
+Audyn reads the media information that Spotify already publishes to Windows and sends the selected display fields to the Discord desktop client. It does not use the Spotify Web API for playback detection, which is why Spotify Premium is unnecessary.
 
-## Settings
+Album-cover lookup is optional. When enabled, Audyn searches the Deezer public catalog using the artist and track title. If a reliable match is not available, the Audyn artwork is used instead.
 
-Audyn lets you control:
+## Personalize your Presence
 
-- whether Rich Presence is active;
-- track title, artist, album, and progress visibility;
-- the main and secondary Presence text formats;
-- whether Presence is hidden while playback is paused;
-- automatic startup with Windows;
-- minimizing the application to the system tray.
+The **Appearance** page lets you choose whether Discord shows:
 
-Technical credentials, Discord Application ID, advertisement filtering, and official button destinations are not exposed as user-editable settings.
+- track title;
+- artist;
+- album;
+- playback progress;
+- paused tracks.
 
-## How it works without Spotify Premium
+You can also customize the main and secondary lines with `{track}`, `{artist}` and `{album}`. The Discord Application ID, GitHub destination, Spotify-track button behavior and advertisement filtering are part of the official build and cannot be edited in the app.
 
-Audyn reads the local media information published by the Spotify desktop app through Windows `GlobalSystemMediaTransportControlsSessionManager`. It does not use Spotify's Web API, so it does not need a Spotify developer application or a Premium account.
+## Privacy and security
 
-The detected activity is sent directly to the running Discord desktop client through local Discord RPC. For a publicly accessible cover image, Audyn anonymously searches Deezer's public catalog and accepts an image only when the title, artist, and approximate duration match.
+Security is designed into the background of Audyn without getting in the way of the music experience:
 
-## Privacy
+- no Spotify or Discord account is connected to Audyn;
+- no OAuth token, password, client secret or user token is requested or stored;
+- Discord Presence is sent to the locally running desktop client;
+- track and artist names are excluded from diagnostic logs;
+- online cover lookup can be disabled from **About**;
+- downloaded artwork can be cleared immediately or automatically on exit;
+- HTTPS responses, image downloads and Discord messages are size-limited and validated;
+- release builds enable standard Windows process and compiler hardening.
 
-Audyn has no telemetry and does not operate an Audyn server. During normal use it processes only:
+This design reduces the amount of account access and personal data Audyn needs, but it is not a claim that software can be perfectly secure. Read the complete [privacy notice](PRIVACY.md) and [security model](SECURITY.md) for the detailed data flow, controls and limitations.
 
-- Spotify media metadata available locally through Windows;
-- an anonymous album-art search containing the artist and track title;
-- local Rich Presence messages sent to the Discord desktop client.
+## Downloads and verification
 
-Advertisement metadata is rejected before an artwork lookup or Discord publication. Audyn never asks for a Spotify password, access token, or Discord token.
-
-Local application files are stored here:
-
-```text
-%LOCALAPPDATA%\Audyn\settings.ini
-%LOCALAPPDATA%\Audyn\audyn.log
-%LOCALAPPDATA%\Audyn\artwork\
-```
-
-## Requirements
-
-- Windows 10 version 1809 or newer, or Windows 11;
-- the Spotify desktop app from Spotify or Microsoft Store;
-- the Discord desktop app with activity sharing enabled.
-
-The Spotify web player and Discord web client are not supported because they do not expose the local interfaces Audyn uses.
-
-## Troubleshooting
-
-### Discord does not show the activity
-
-- Confirm that both Spotify and Discord are their desktop applications.
-- Make sure the switch in Audyn says **ACTIVE**.
-- Make sure Discord activity sharing is enabled.
-- Start playing a track, then restart Audyn if Discord was opened later.
-
-### The Discord timer is incorrect
-
-Audyn detects seeking and same-track restarts on its next playback poll, normally within two seconds. It also refreshes an active Discord Presence periodically and retries automatically after a temporary Discord RPC failure.
-
-### Album artwork is missing
-
-Artwork matching is intentionally strict to prevent the wrong cover from being displayed. When no reliable public match is found, Audyn uses its application artwork instead.
-
-### An advertisement starts playing
-
-Audyn clears Discord Presence while an advertisement is detected. Advertisement information is not looked up or published.
-
-## Downloads and integrity
-
-Official Windows builds are published only on this repository's [Releases page](../../releases). Each release archive contains:
+Official release files are published through [rookeudev/AUDYN Releases](../../releases). Each Windows archive contains:
 
 ```text
 Audyn.exe
 README.txt
 SHA256SUMS.txt
+SIGNATURE-STATUS.txt
 ```
 
-You can verify the downloaded executable from PowerShell after extracting the archive:
+You can verify the extracted executable in PowerShell:
 
 ```powershell
 Get-FileHash .\Audyn.exe -Algorithm SHA256
+Get-AuthenticodeSignature .\Audyn.exe
 ```
 
-Compare the resulting hash with `SHA256SUMS.txt`. Release builds use link-time optimization, dead-code elimination, stack protection, stripped symbols, DEP/NX, ASLR, high-entropy VA, and the Windows GUI subsystem.
+The SHA-256 value must match `SHA256SUMS.txt`. `SIGNATURE-STATUS.txt` states whether that exact release was signed.
 
-This is a binary distribution repository; source code and build infrastructure are not included. See [SECURITY.md](SECURITY.md) for the security and release model.
+## Requirements
 
-## Technologies
+- Windows 10 version 1809 or newer, or Windows 11;
+- Spotify desktop app from Spotify or the Microsoft Store;
+- Discord desktop app with activity sharing enabled.
 
-- [Windows system media transport controls](https://learn.microsoft.com/windows/uwp/audio-video-camera/system-media-transport-controls)
-- [Discord local RPC](https://docs.discord.com/developers/topics/rpc)
-- Native Windows UI and C++20
+The Spotify web player and Discord web client are not supported because they do not expose the local Windows interfaces Audyn uses.
+
+## Troubleshooting
+
+### Discord does not show the activity
+
+- Confirm that Spotify and Discord are the desktop applications.
+- Check that the top-right Audyn switch says **LIVE**.
+- Enable activity sharing in Discord under **User Settings → Activity Privacy**.
+- Start a track; if Discord was opened later, restart Audyn once.
+
+### The timer is incorrect after seeking
+
+Audyn detects a seek or a restart of the same track on its next media poll, normally within two seconds. It also refreshes an active Presence periodically and reconnects after temporary Discord RPC failures.
+
+### Album artwork is missing
+
+Open **About** and enable **Album cover lookup**. Artwork matching is deliberately strict, so Audyn uses its own artwork when it cannot find a confident public match.
+
+### Windows displays a SmartScreen warning
+
+Check `SIGNATURE-STATUS.txt`, compare the SHA-256 value and inspect the Authenticode result. A new or unsigned GitHub build can trigger SmartScreen while reputation develops.
+
+## Microsoft signing status
+
+Audyn is prepared for Authenticode signing and a future Microsoft Store submission. The current GitHub build is not described as Microsoft-certified unless that exact package has passed Microsoft Partner Center certification. The owner checklist and current status are documented in [MICROSOFT-TRUST.md](MICROSOFT-TRUST.md).
+
+## Public repository contents
+
+This repository publishes product documentation, screenshots and compiled release artifacts. The private source and build infrastructure are not included. Compiling code does not make reverse engineering impossible, so users should rely on release checksums and a valid publisher signature where available—not on claims of absolute source protection.
+
+## Technical references
+
+- [Microsoft — System media transport controls](https://learn.microsoft.com/windows/uwp/audio-video-camera/system-media-transport-controls)
+- [Microsoft — Code-signing options](https://learn.microsoft.com/windows/apps/package-and-deploy/code-signing-options)
+- [Microsoft — SmartScreen reputation](https://learn.microsoft.com/windows/apps/package-and-deploy/smartscreen-reputation)
+- [Discord — Local RPC](https://docs.discord.com/developers/topics/rpc)
 
 ---
 
 <p align="center">
-  Audyn is an independent project and is not affiliated with Spotify, Discord, or Deezer.
+  Audyn is an independent project and is not affiliated with, certified by or endorsed by Spotify, Discord, Deezer, Microsoft or GitHub.
 </p>
