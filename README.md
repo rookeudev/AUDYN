@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <img alt="Audyn 0.5.0" src="https://img.shields.io/badge/Audyn-0.5.0-2DD4BF?style=flat-square">
+  <img alt="Audyn 0.5.2" src="https://img.shields.io/badge/Audyn-0.5.2-2DD4BF?style=flat-square">
   <img alt="Windows 10 and 11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-177DDC?style=flat-square&logo=windows11&logoColor=white">
   <img alt="Spotify Free" src="https://img.shields.io/badge/Spotify-Free%20%7C%20Premium-1DB954?style=flat-square&logo=spotify&logoColor=white">
   <img alt="Discord Rich Presence" src="https://img.shields.io/badge/Discord-Rich%20Presence-5865F2?style=flat-square&logo=discord&logoColor=white">
@@ -56,21 +56,24 @@ It works with both **Spotify Free and Spotify Premium**, runs quietly in the sys
 - **Album artwork:** matching public cover art appears as the large Presence image.
 - **Useful buttons:** fixed links to the official Audyn GitHub repository and the current track on Spotify.
 - **Accurate timing:** seeking or restarting the same track resynchronizes the Discord timer.
-- **Advertisement filtering:** Audyn clears the activity instead of publishing detected ad metadata.
+- **Advertisement filtering:** Audyn rejects localized ad metadata, locked advertising sessions and every Spotify item up to 90 seconds, then immediately clears Discord activity.
 - **Personal appearance:** choose which fields are displayed and customize both Presence text lines.
 - **Smooth native UI:** animated hover states, responsive controls and a modern dark design.
 - **Background mode:** minimize to the Windows tray and optionally start with Windows.
+- **Start Menu entry:** after the first launch, search for `Audyn` from the Windows Start menu.
 - **Lightweight build:** native C++20, no Electron runtime and no console window.
 
 ## Quick start
 
-1. Download `Audyn-0.5.0-win64.zip` from the [latest release](../../releases/latest).
+1. Download `Audyn-0.5.2-win64.zip` from the [latest release](../../releases/latest).
 2. Extract the ZIP to a folder you trust.
 3. Open the Spotify and Discord desktop applications.
-4. Run `Audyn.exe` and play a song in Spotify.
+4. Run `Audyn.exe` once and play a song in Spotify.
 5. Keep the switch in the top-right corner set to **LIVE**.
 
-That is all. Audyn does not require installation, administrator rights, a Spotify Premium subscription or a browser login.
+That is all. Audyn creates a per-user Start Menu shortcut automatically, so future launches can be found by searching for **Audyn** in Windows. Keep the extracted folder in place so the shortcut continues to point to `Audyn.exe`.
+
+Audyn does not require installation, administrator rights, a Spotify Premium subscription or a browser login.
 
 ## How it works
 
@@ -110,6 +113,17 @@ Security is designed into the background of Audyn without getting in the way of 
 - downloaded artwork can be cleared immediately or automatically on exit;
 - HTTPS responses, image downloads and Discord messages are size-limited and validated;
 - release builds enable standard Windows process and compiler hardening.
+
+## Why Audyn avoids connected accounts
+
+Many Spotify and Discord integrations use OAuth to connect a user's accounts. OAuth is a standard authorization system and is not automatically unsafe, but approving a connection gives the third-party application an access token. The scopes approved by the user determine which account data the application can read or change. Depending on those scopes, this can include profile information, playlists, saved content, or the Discord servers a user belongs to. This behavior is documented by both [Spotify Authorization](https://developer.spotify.com/documentation/web-api/concepts/authorization) and [Discord OAuth2 and Permissions](https://docs.discord.com/developers/platform/oauth2-and-permissions).
+
+Compared with an application that holds no account authorization, a connected integration creates another credential and another service that must be trusted and protected. If its token, storage, redirect flow, or backend is exposed or compromised, an unauthorized person may be able to use the permissions granted to that integration. This can make access to personal account data easier than when no third-party account permission exists at all.
+
+Audyn avoids that additional access path. It does not open a Spotify or Discord authorization page, receive access or refresh tokens, store account credentials, or operate a remote account-linking server. It reads only the Now Playing information exposed locally by Spotify to Windows and sends the selected Presence fields to the locally running Discord desktop client.
+
+> [!NOTE]
+> This is not a claim that every connected application is dangerous. It explains why Audyn requests no account access when local Rich Presence can work without it.
 
 This design reduces the amount of account access and personal data Audyn needs, but it is not a claim that software can be perfectly secure. Read the complete [privacy notice](PRIVACY.md) and [security model](SECURITY.md) for the detailed data flow, controls and limitations.
 
@@ -176,6 +190,9 @@ This repository publishes product documentation, screenshots and compiled releas
 - [Microsoft — Code-signing options](https://learn.microsoft.com/windows/apps/package-and-deploy/code-signing-options)
 - [Microsoft — SmartScreen reputation](https://learn.microsoft.com/windows/apps/package-and-deploy/smartscreen-reputation)
 - [Discord — Local RPC](https://docs.discord.com/developers/topics/rpc)
+- [Discord — OAuth2 and permissions](https://docs.discord.com/developers/platform/oauth2-and-permissions)
+- [Spotify — Authorization](https://developer.spotify.com/documentation/web-api/concepts/authorization)
+- [Spotify — Access tokens](https://developer.spotify.com/documentation/web-api/concepts/access-token)
 
 ---
 
