@@ -2,7 +2,7 @@
 
 ## Current status
 
-Audyn 0.5.2 is prepared for Authenticode signing and Microsoft Store submission, but a build must not be described as **Microsoft certified**, **Microsoft signed**, or **verified publisher** unless that exact build has completed the corresponding external process.
+Audyn 0.5.3 is prepared for Authenticode signing and Microsoft Store submission, but a build must not be described as **Microsoft certified**, **Microsoft signed**, or **verified publisher** unless that exact build has completed the corresponding external process.
 
 The application checks its own executable signature and displays the result under **About → Build information**:
 

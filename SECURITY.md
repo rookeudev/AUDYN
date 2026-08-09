@@ -10,6 +10,8 @@ Audyn provides Discord Rich Presence without creating an account bridge between 
 
 Audyn is designed to limit the consequences of a compromised integration because it never obtains account-level credentials in the first place.
 
+Version 0.5.3 can record a generic local diagnostic event when Windows reports a debugger attached to the running Audyn process. This is a limited runtime signal, not surveillance: it is not uploaded, contains no track metadata, can have false positives, and cannot detect offline inspection or decompilation of a copied executable.
+
 ## Trust boundaries
 
 Audyn interacts with:
@@ -45,7 +47,7 @@ The Discord Application ID is public application metadata, not a secret. It and 
 - Cached downloads must have an image content type and recognized PNG, JPEG, or WebP signature.
 - Files are written to a temporary cache file and renamed only after a complete download.
 
-Users can disable all public artwork lookups from **Privacy center**.
+Users can disable all public artwork lookups from **About**.
 
 ## Local privacy controls
 
@@ -53,7 +55,7 @@ Users can disable all public artwork lookups from **Privacy center**.
 - Log messages are sanitized, size-limited, and rotated at 512 KiB.
 - Artwork cache is bounded and can be cleared immediately or on every exit.
 - Advertisement metadata is filtered before cover lookup or Presence publication.
-- Settings templates and media fields have character limits and unsafe control characters removed.
+- Presence metadata is sanitized, length-limited, and mapped to fixed track and artist fields.
 
 ## Process and binary hardening
 
@@ -76,7 +78,7 @@ Audyn also limits Discord RPC frames and uses security-quality-of-service flags 
 
 ## Signing and Microsoft certification
 
-Audyn verifies its own Authenticode trust status and displays it in **Privacy center**. **SIGNING PENDING** is not a Microsoft certification. **AUTHENTICODE VERIFIED** means Windows validated a trusted publisher signature on that exact executable; it does not mean Microsoft Store certification unless the package was actually approved and distributed through the Store.
+Audyn verifies its own Authenticode trust status and displays it under **About → Build information**. **GITHUB BUILD** is not a Microsoft certification. **SIGNED BUILD** means Windows validated a trusted publisher signature on that exact executable; it does not mean Microsoft Store certification unless the package was actually approved and distributed through the Store.
 
 See [MICROSOFT-TRUST.md](MICROSOFT-TRUST.md) for the accurate release and certification process.
 
@@ -89,7 +91,7 @@ Native software cannot be made impossible to reverse engineer. Obfuscation and s
 ## Known limits
 
 - A malicious process already running as the same Windows user can observe local application activity.
-- Discord receives the Presence fields the user enables and applies its own visibility settings.
+- Discord receives the current track display while Presence is enabled and applies its own visibility settings.
 - Enabling online artwork search discloses artist and track title to Deezer.
 - Advertisement detection is heuristic because Windows exposes media metadata, not Spotify's advertising classification API.
 - Code signing proves publisher identity and file integrity; it does not prove the absence of vulnerabilities.
