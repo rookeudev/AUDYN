@@ -35,21 +35,23 @@ It works with both **Spotify Free and Spotify Premium**, runs quietly in the sys
 
 ## Preview
 
+### Now playing
+
 <p align="center">
   <img src="docs/audyn-dashboard.png" width="900" alt="Audyn Now Playing dashboard">
 </p>
 
-<details>
-  <summary><strong>Professional settings</strong></summary>
-  <br>
-  <p align="center"><img src="docs/audyn-settings.png" width="900" alt="Audyn settings"></p>
-</details>
+### Settings
 
-<details>
-  <summary><strong>About and artwork preferences</strong></summary>
-  <br>
-  <p align="center"><img src="docs/audyn-privacy.png" width="900" alt="Audyn About and data page"></p>
-</details>
+<p align="center">
+  <img src="docs/audyn-settings.png" width="900" alt="Audyn professional settings">
+</p>
+
+### About and artwork
+
+<p align="center">
+  <img src="docs/audyn-privacy.png" width="900" alt="Audyn About and artwork page">
+</p>
 
 ## Highlights
 
